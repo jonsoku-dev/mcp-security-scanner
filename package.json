@@ -5,12 +5,12 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
-    "mcp-security-scanner": "dist/cli.js"
+    "mcp-security-scanner": "dist/index.js"
   },
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "tsc",
-    "postbuild": "chmod +x dist/cli.js",
+    "postbuild": "chmod +x dist/index.js",
     "start": "node dist/index.js",
     "dev": "ts-node src/index.ts",
     "clean": "rimraf dist *.tgz",
