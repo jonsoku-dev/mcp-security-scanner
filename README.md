@@ -31,7 +31,7 @@ graph TD
 ## 설치
 
 ```bash
-npm install @modelcontextprotocol/security-scanner
+npm install @jonsoku2/mcp-security-scanner
 ```
 
 ## 사용 방법
@@ -45,7 +45,7 @@ npx mcp-security-scanner scan --directory ./my-project --verbose
 ### 2. 프로그래밍 방식으로 사용
 
 ```typescript
-import { MCPSecurityScanner } from '@modelcontextprotocol/security-scanner';
+import { MCPSecurityScanner } from '@jonsoku2/mcp-security-scanner';
 
 const scanner = new MCPSecurityScanner({
   configPath: './config.json',
@@ -56,50 +56,38 @@ const result = await scanner.scanDirectory('./my-project');
 console.log(result);
 ```
 
-## AI 도구에 등록하기
+## 의존성
 
-### Claude Desktop에 등록
+### 주요 의존성
+- @modelcontextprotocol/sdk: ^1.0.0
+- chalk: ^4.1.2
+- commander: ^11.1.0
+- semver: ^7.5.4
+- zod: ^3.22.4
 
-1. Claude Desktop 설정 열기
-2. 'Tools & Integrations' 섹션으로 이동
-3. 'Add Custom Tool' 클릭
-4. 다음 정보 입력:
-   ```json
-   {
-     "name": "mcp-security-scanner",
-     "description": "MCP 도구들의 보안 취약점을 검사하는 도구",
-     "command": "npx mcp-security-scanner",
-     "transport": "stdio"
-   }
-   ```
+### 개발 의존성
+- TypeScript: ^5.3.3
+- Jest: ^29.7.0
+- ts-node: ^10.9.2
+- rimraf: ^5.0.10
 
-### Cursor에 등록
+## 스크립트
 
-1. Cursor 설정 파일 열기 (`~/.cursor/config.json`)
-2. `tools` 섹션에 다음 추가:
-   ```json
-   {
-     "tools": {
-       "mcp-security-scanner": {
-         "command": "npx mcp-security-scanner",
-         "transport": "stdio"
-       }
-     }
-   }
-   ```
+```bash
+# 빌드
+npm run build
 
-### CLIne에 등록
+# 개발 모드 실행
+npm run dev
 
-1. CLIne 설정 디렉토리로 이동
-2. `tools.json` 파일에 다음 추가:
-   ```json
-   {
-     "mcp-security-scanner": {
-       "command": "npx mcp-security-scanner",
-       "transport": "stdio"
-     }
-   }
-   ```
+# 패키지 미리보기
+npm run pack:preview
+
+# 배포
+npm run release:patch  # 패치 버전 배포
+npm run release:minor  # 마이너 버전 배포
+npm run release:major  # 메이저 버전 배포
+```
 
 ## 설정
 
@@ -154,4 +142,8 @@ MIT
 2. 새 브랜치를 생성합니다 (`git checkout -b feature/amazing-feature`)
 3. 변경사항을 커밋합니다 (`git commit -m 'Add amazing feature'`)
 4. 브랜치를 푸시합니다 (`git push origin feature/amazing-feature`)
-5. Pull Request를 생성합니다 
+5. Pull Request를 생성합니다
+
+## 작성자
+
+jonsoku2 
