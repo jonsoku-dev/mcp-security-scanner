@@ -1,12 +1,12 @@
 # MCP 보안 스캐너
 
-MCP(Model Context Protocol) 보안 스캐너는 MCP 도구들의 보안 취약점을 검사하는 도구입니다. 버전 관리, 권한 검사, 의심스러운 패턴 탐지 등 다양한 보안 검사를 수행합니다.
+MCP(Model Context Protocol) 보안 스캐너는 MCP 도구들의 보안 취약점을 검사하는 도구입니다. 등록된 MCP 도구들의 설정, 실행 가능 여부, 권한 등을 검사하여 잠재적인 보안 문제를 식별합니다.
 
 ## 기능
 
-- 도구 버전 취약점 검사
-- 권한 관리 검사
-- 의심스러운 패턴 탐지
+- MCP 도구 실행 가능 여부 검사
+- 도구 설정 유효성 검사
+- 필수 환경 변수 검사
 - 도구 이름 충돌 검사
 - 상세한 보안 리포트 생성
 
@@ -16,9 +16,9 @@ MCP(Model Context Protocol) 보안 스캐너는 MCP 도구들의 보안 취약�
 graph TD
     A[MCP 클라이언트] -->|요청| B[MCP 서버]
     B --> C[보안 스캐너]
-    C --> D[버전 분석기]
-    C --> E[권한 분석기]
-    C --> F[패턴 분석기]
+    C --> D[설정 분석기]
+    C --> E[실행 테스터]
+    C --> F[환경변수 검사기]
     C --> G[이름 충돌 분석기]
     D --> H[취약점 보고서]
     E --> H
@@ -39,7 +39,7 @@ npm install @jonsoku2/mcp-security-scanner
 ### 1. 명령줄에서 실행
 
 ```bash
-npx @jonsoku2/mcp-security-scanner scan --directory ./my-project --verbose
+npx mcp-security-scanner scan --verbose
 ```
 
 ### 2. 프로그래밍 방식으로 사용
@@ -48,13 +48,38 @@ npx @jonsoku2/mcp-security-scanner scan --directory ./my-project --verbose
 import { MCPSecurityScanner } from '@jonsoku2/mcp-security-scanner';
 
 const scanner = new MCPSecurityScanner({
-  configPath: './config.json',
-  ignorePatterns: ['*.test.ts']
+  configPath: './config.json'
 });
 
-const result = await scanner.scanDirectory('./my-project');
+const result = await scanner.scan({ verbose: true });
 console.log(result);
 ```
+
+## 검사 항목
+
+### 1. 설정 관련 취약점
+- `INVALID_CONFIG`: 잘못된 도구 설정
+- `MISSING_DEPENDENCY`: 누락된 의존성 (환경 변수 등)
+- `EXECUTION_ERROR`: 도구 실행 오류
+
+### 2. 도구 설명 관련 취약점
+- `SUSPICIOUS_PATTERN`: 의심스러운 패턴
+- `HIDDEN_HTML`: 숨겨진 HTML 태그
+- `PERMISSION_WORDS`: 권한 관련 민감한 단어
+- `LLM_DIRECTION`: LLM 직접 지시 패턴
+- `EXCESSIVE_LENGTH`: 과도하게 긴 설명
+
+### 3. 코드 관련 취약점
+- `DANGEROUS_FUNCTION`: 위험한 함수 사용
+- `COMMAND_INJECTION`: 명령어 삽입 가능성
+- `SQL_INJECTION`: SQL 삽입 가능성
+- `HARDCODED_SECRET`: 하드코딩된 비밀값
+- `PATH_TRAVERSAL`: 경로 탐색 취약점
+- `REMOTE_CODE_EXECUTION`: 원격 코드 실행 가능성
+
+### 4. 권한 관련 취약점
+- `SENSITIVE_PARAMETER`: 민감한 매개변수
+- `HIGH_PRIVILEGE_NAME`: 높은 권한을 암시하는 이름
 
 ## 의존성
 
