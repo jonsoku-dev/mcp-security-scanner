@@ -11,6 +11,7 @@ const program = new Command();
 interface ScanOptions {
   config?: string;
   verbose?: boolean;
+  shouldScan?: boolean;
 }
 
 program
@@ -29,7 +30,8 @@ program
       
       const result = await scan({
         configPath: options.config,
-        verbose: options.verbose
+        verbose: options.verbose,
+        shouldScan: true
       });
 
       // 취약점 출력
