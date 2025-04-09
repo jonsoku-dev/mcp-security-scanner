@@ -39,7 +39,7 @@ npm install @jonsoku2/mcp-security-scanner
 ### 1. 명령줄에서 실행
 
 ```bash
-npx mcp-security-scanner scan --directory ./my-project --verbose
+npx @jonsoku2/mcp-security-scanner scan --directory ./my-project --verbose
 ```
 
 ### 2. 프로그래밍 방식으로 사용
