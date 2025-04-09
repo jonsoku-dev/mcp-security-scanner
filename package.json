@@ -1,6 +1,6 @@
 {
   "name": "@jonsoku2/mcp-security-scanner",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "MCP 도구들의 보안 취약점을 검사하는 도구",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
