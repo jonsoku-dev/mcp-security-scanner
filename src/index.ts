@@ -326,8 +326,8 @@ export function formatVulnerability(vuln: ToolVulnerability): string {
 
 export { MCPSecurityScanner, Severity, ScanResult, ToolVulnerability };
 
-// 서버 자동 시작
-if (import.meta.url === `file://${process.argv[1]}`) {
+// 서버 자동 시작 (직접 실행된 경우)
+if (require.main === module) {
   startServer().catch(error => {
     console.error('서버 시작 중 오류 발생:', error);
     process.exit(1);
