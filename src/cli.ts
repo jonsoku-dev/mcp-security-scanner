@@ -4,13 +4,12 @@ import { MCPSecurityScanner } from './scanner';
 import { Command } from 'commander';
 import chalk from 'chalk';
 import { Severity } from './models/scanResult';
+import { scan } from './index';
 
 const program = new Command();
 
 interface ScanOptions {
-  directory: string;
   config?: string;
-  ignore?: string[];
   verbose?: boolean;
 }
 
@@ -21,27 +20,24 @@ program
 
 program
   .command('scan')
-  .description('지정된 디렉토리의 MCP 도구들을 스캔합니다')
-  .requiredOption('-d, --directory <path>', '스캔할 디렉토리 경로')
+  .description('등록된 MCP 도구들의 보안을 검사합니다')
   .option('-c, --config <path>', '설정 파일 경로')
-  .option('-i, --ignore <patterns...>', '무시할 파일 패턴들')
   .option('-v, --verbose', '상세한 로그 출력', false)
   .action(async (options: ScanOptions) => {
     try {
-      const scanner = new MCPSecurityScanner({
+      console.log(chalk.blue('🔍 MCP 도구 보안 검사를 시작합니다...'));
+      
+      const result = await scan({
         configPath: options.config,
-        ignorePatterns: options.ignore,
-        logLevel: options.verbose ? 'debug' : 'info'
+        verbose: options.verbose
       });
-
-      console.log(chalk.blue('🔍 보안 스캔 시작...'));
-      const result = await scanner.scanDirectory(options.directory);
 
       // 취약점 출력
       if (result.vulnerabilities.length > 0) {
         console.log(chalk.red('\n🚨 발견된 취약점:'));
         result.vulnerabilities.forEach(vuln => {
           console.log(chalk.yellow(`\n도구: ${vuln.toolName}`));
+          console.log(`유형: ${getVulnerabilityTypeLabel(vuln.type)}`);
           console.log(`설명: ${vuln.description}`);
           console.log(`심각도: ${getSeverityLabel(vuln.severity)}`);
           if (vuln.remediation) {
@@ -78,15 +74,41 @@ program
 
 function getSeverityLabel(severity: Severity): string {
   switch (severity) {
-    case Severity.LOW:
-      return chalk.green('낮음');
-    case Severity.MEDIUM:
-      return chalk.yellow('중간');
+    case Severity.CRITICAL:
+      return chalk.red('치명적');
     case Severity.HIGH:
       return chalk.red('높음');
+    case Severity.MEDIUM:
+      return chalk.yellow('중간');
+    case Severity.LOW:
+      return chalk.green('낮음');
     default:
       return chalk.gray('알 수 없음');
   }
+}
+
+function getVulnerabilityTypeLabel(type: string): string {
+  const labels: { [key: string]: string } = {
+    INVALID_CONFIG: '설정 오류',
+    EXECUTION_ERROR: '실행 오류',
+    MISSING_DEPENDENCY: '의존성 누락',
+    NAME_CONFLICT: '이름 충돌',
+    SUSPICIOUS_PATTERN: '의심스러운 패턴',
+    HIDDEN_HTML: '숨겨진 HTML',
+    PERMISSION_WORDS: '권한 관련 단어',
+    LLM_DIRECTION: 'LLM 지시',
+    EXCESSIVE_LENGTH: '과도한 길이',
+    DANGEROUS_FUNCTION: '위험한 함수',
+    COMMAND_INJECTION: '명령어 삽입',
+    SQL_INJECTION: 'SQL 삽입',
+    HARDCODED_SECRET: '하드코딩된 비밀값',
+    PATH_TRAVERSAL: '경로 탐색',
+    REMOTE_CODE_EXECUTION: '원격 코드 실행',
+    SENSITIVE_PARAMETER: '민감한 매개변수',
+    HIGH_PRIVILEGE_NAME: '높은 권한 이름'
+  };
+
+  return labels[type] || type;
 }
 
 program.parse(); 
