@@ -81,6 +81,9 @@ console.log(result);
 - `SENSITIVE_PARAMETER`: 민감한 매개변수
 - `HIGH_PRIVILEGE_NAME`: 높은 권한을 암시하는 이름
 
+### 5. 이름 관련 취약점
+- `NAME_CONFLICT`: 도구 이름 충돌 또는 유사성
+
 ## 의존성
 
 ### 주요 의존성

@@ -28,7 +28,10 @@ export enum VulnerabilityType {
   // 설정 관련 취약점
   INVALID_CONFIG = 'INVALID_CONFIG',
   MISSING_DEPENDENCY = 'MISSING_DEPENDENCY',
-  EXECUTION_ERROR = 'EXECUTION_ERROR'
+  EXECUTION_ERROR = 'EXECUTION_ERROR',
+  
+  // 이름 관련 취약점
+  NAME_CONFLICT = 'NAME_CONFLICT'
 }
 
 export interface VulnerabilityDetails {
