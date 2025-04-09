@@ -1,0 +1,46 @@
+{
+  "code": {
+    "dangerous_imports": [
+      "child_process",
+      "crypto.subtle",
+      "fs.chmod",
+      "net.Socket"
+    ],
+    "dangerous_functions": [
+      "eval",
+      "Function",
+      "execSync",
+      "chmod"
+    ],
+    "security_risks": [
+      "http://",
+      "ftp://",
+      "telnet://"
+    ]
+  },
+  "dependencies": {
+    "suspicious_packages": [
+      "malicious-package",
+      "suspicious-module",
+      "unsafe-lib"
+    ],
+    "version_patterns": [
+      "*",
+      "latest",
+      "x.x.x"
+    ]
+  },
+  "configuration": {
+    "sensitive_keys": [
+      "password",
+      "secret",
+      "token",
+      "key"
+    ],
+    "unsafe_settings": [
+      "allowUnauthorized",
+      "disableSecurity",
+      "skipValidation"
+    ]
+  }
+}

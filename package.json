@@ -1,0 +1,65 @@
+{
+  "name": "@jonsoku2/mcp-security-scanner",
+  "version": "1.0.1",
+  "description": "MCP 도구들의 보안 취약점을 검사하는 도구",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "mcp-security-scanner": "dist/cli.js"
+  },
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "tsc",
+    "postbuild": "chmod +x dist/cli.js",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "clean": "rimraf dist *.tgz",
+    "prepublishOnly": "npm run build",
+    "postversion": "git push && git push --tags",
+    "pack": "npm run clean && npm run build && npm pack",
+    "pack:preview": "npm pack --dry-run",
+    "publish:preview": "npm publish --dry-run",
+    "release:pack": "npm run pack && open .",
+    "release:patch": "npm version patch -m \"chore(release): %s\" && npm run release:publish",
+    "release:minor": "npm version minor -m \"chore(release): %s\" && npm run release:publish",
+    "release:major": "npm version major -m \"chore(release): %s\" && npm run release:publish",
+    "release:publish": "npm run pack && npm publish *.tgz && npm run clean"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "mcp",
+    "security",
+    "scanner",
+    "vulnerability",
+    "analysis"
+  ],
+  "author": "jonsoku2",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "chalk": "^4.1.2",
+    "commander": "^11.1.0",
+    "semver": "^7.5.4",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.11",
+    "@types/node": "^20.10.5",
+    "@types/semver": "^7.5.6",
+    "jest": "^29.7.0",
+    "rimraf": "^5.0.10",
+    "ts-jest": "^29.1.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  },
+  "directories": {
+    "test": "test"
+  }
+}

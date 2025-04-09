@@ -1,0 +1,13 @@
+src/
+tests/
+.git/
+.gitignore
+.eslintrc
+.prettierrc
+jest.config.js
+tsconfig.json
+*.log
+.vscode/
+.idea/
+coverage/
+node_modules/ 

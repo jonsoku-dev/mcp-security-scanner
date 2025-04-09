@@ -1,0 +1,20 @@
+{
+  "file": {
+    "read": ["*.json", "*.js", "*.ts", "*.md"],
+    "write": ["logs/*", "temp/*"],
+    "execute": ["scripts/*.sh", "bin/*"]
+  },
+  "network": {
+    "outbound": ["api.github.com", "registry.npmjs.org"],
+    "inbound": ["localhost"]
+  },
+  "system": {
+    "env": ["NODE_ENV", "PATH", "HOME"],
+    "commands": ["npm", "node", "git"]
+  },
+  "security": {
+    "allowRoot": false,
+    "allowSudo": false,
+    "allowShellExec": false
+  }
+}
